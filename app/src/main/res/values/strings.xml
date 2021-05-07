@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Film</string>
+    <string name="photo">photo</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">Tv Shows</string>
+    <string name="favorites">Favorites</string>
+    <string name="title">Title</string>
+    <string name="rating">Rating</string>
+    <string name="date">Date</string>
+    <string name="duration">Duration</string>
+    <string name="genre">Genre</string>
+    <string name="descriptions">Descriptions</string>
+</resources>
