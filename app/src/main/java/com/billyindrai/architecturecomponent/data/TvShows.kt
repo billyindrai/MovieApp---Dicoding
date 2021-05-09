@@ -24,7 +24,5 @@ data class TvShows (
         @SerializedName("genres")
         val genres: @RawValue List<Genre>,
         @SerializedName("overview")
-        var description: String? = null,
-        @SerializedName("results")
-        val result: ArrayList<TvShows>
+        var description: String? = null
 ) : Parcelable

@@ -1,53 +1,90 @@
 package com.billyindrai.architecturecomponent
 
-import junit.framework.TestCase
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import com.billyindrai.architecturecomponent.data.Movie
+import com.billyindrai.architecturecomponent.data.TvShows
+import com.billyindrai.architecturecomponent.repository.Dummy
+import com.billyindrai.architecturecomponent.repository.FakeRepo
+import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 
-class DetailViewModelTest : TestCase() {
+@RunWith(MockitoJUnitRunner::class)
+class DetailViewModelTest{
     private lateinit var viewModel: DetailViewModel
-    private val dummyDataMovie = Dummy.dummyMovies()[0]
-    private val dummyDataTv = Dummy.dummyTvShows()[0]
-    private val idMovie = dummyDataMovie.id
-    private val idTv = dummyDataMovie.id
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    public override fun setUp() {
-        super.setUp()
-        viewModel = DetailViewModel()
-        if(dummyDataMovie.id == idMovie) {
-            viewModel.setSelectedData(idMovie)
-        }else{
-            viewModel.setSelectedData(idTv)
-        }
+    @Mock
+    private lateinit var repository: FakeRepo
+
+    private val idMovie = 332562
+    private val idTv = 95557
+
+    @Before
+    fun setUp() {
+        viewModel = DetailViewModel(repository)
     }
 
-    fun testSetSelectedData() {}
+    @Test
+    fun testSetSelectedData() {
+        viewModel.setSelectedData(idMovie)
+        assertEquals(idMovie, viewModel.id)
+    }
 
+    @Test
     fun testGetDataMovie() {
-        viewModel.setSelectedData(dummyDataMovie.id)
-        val data = viewModel.getDataMovie()
-        assertNotNull(data)
-            assertEquals(dummyDataMovie.id, data?.id)
-            assertEquals(dummyDataMovie.poster, data?.poster)
-            assertEquals(dummyDataMovie.title, data?.title)
-            assertEquals(dummyDataMovie.rating, data?.rating)
-            assertEquals(dummyDataMovie.date, data?.date)
-            assertEquals(dummyDataMovie.duration, data?.duration)
-            assertEquals(dummyDataMovie.genre, data?.genre)
-            assertEquals(dummyDataMovie.description, data?.description)
+        viewModel.setSelectedData(idMovie)
 
+        val dummyMovie = Dummy.generateDummyMovies()[0]
+        val movies = MutableLiveData<Movie>()
+        movies.value = dummyMovie
+
+        Mockito.`when`(repository.getDetailMovie(idMovie)).thenReturn(movies)
+        val dataMovie = viewModel.getDataMovie().value
+        Mockito.verify(repository).getDetailMovie(idMovie)
+
+        Assert.assertNotNull(dataMovie)
+
+        assertEquals(dummyMovie.id, dataMovie?.id)
+        assertEquals(dummyMovie.poster, dataMovie?.poster)
+        assertEquals(dummyMovie.title, dataMovie?.title)
+        assertEquals(dummyMovie.rating, dataMovie?.rating)
+        assertEquals(dummyMovie.date, dataMovie?.date)
+        assertEquals(dummyMovie.duration, dataMovie?.duration)
+        assertEquals(dummyMovie.genres, dataMovie?.genres)
+        assertEquals(dummyMovie.description,dataMovie?.description)
     }
 
-
+    @Test
     fun testGetDataTvShows() {
-        viewModel.setSelectedData(dummyDataTv.id)
-        val data = viewModel.getDataTvShows()
-        assertNotNull(data)
-            assertEquals(dummyDataTv.id, data?.id)
-            assertEquals(dummyDataTv.poster, data?.poster)
-            assertEquals(dummyDataTv.title, data?.title)
-            assertEquals(dummyDataTv.rating, data?.rating)
-            assertEquals(dummyDataTv.date, data?.date)
-            assertEquals(dummyDataTv.duration, data?.duration)
-            assertEquals(dummyDataTv.genre, data?.genre)
-            assertEquals(dummyDataTv.description, data?.description)
+        viewModel.setSelectedData(idTv)
+
+        val dummyTvShow = Dummy.generateDummyTVShow()[0]
+        val tvShow = MutableLiveData<TvShows>()
+        tvShow.value = dummyTvShow
+
+        Mockito.`when`(repository.getDetailTvShow(idTv)).thenReturn(tvShow)
+        val dataTvShow = viewModel.getDataTvShows().value
+        Mockito.verify(repository).getDetailTvShow(idTv)
+
+        Assert.assertNotNull(dataTvShow)
+
+        assertEquals(dummyTvShow.id, dataTvShow?.id)
+        assertEquals(dummyTvShow.poster, dataTvShow?.poster)
+        assertEquals(dummyTvShow.title, dataTvShow?.title)
+        assertEquals(dummyTvShow.rating, dataTvShow?.rating)
+        assertEquals(dummyTvShow.date, dataTvShow?.date)
+        assertEquals(dummyTvShow.episodes, dataTvShow?.episodes)
+        assertEquals(dummyTvShow.seasons, dataTvShow?.seasons)
+        assertEquals(dummyTvShow.genres, dataTvShow?.genres)
+        assertEquals(dummyTvShow.description,dataTvShow?.description)
     }
 }

@@ -9,7 +9,7 @@ import com.billyindrai.architecturecomponent.repository.AppRepository
 
 class DetailViewModel(private val repository: AppRepo = AppRepository()) : ViewModel() {
 
-    private var id: Int = 0
+    var id: Int = 0
 
     fun setSelectedData(id: Int) {
         this.id = id

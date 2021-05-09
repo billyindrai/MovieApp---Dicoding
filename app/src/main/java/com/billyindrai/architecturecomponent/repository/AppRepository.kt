@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.billyindrai.architecturecomponent.EspressoIdling
 import com.billyindrai.architecturecomponent.data.Movie
+import com.billyindrai.architecturecomponent.data.PopMovie
+import com.billyindrai.architecturecomponent.data.PopTv
 import com.billyindrai.architecturecomponent.data.TvShows
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,8 +18,8 @@ class AppRepository : AppRepo {
     override fun getPopularMovie(): LiveData<ArrayList<Movie>>{
         val popMovie = MutableLiveData<ArrayList<Movie>>()
         EspressoIdling.increment()
-        Retrofit.create().getPopularMovies(API_KEY).enqueue(object : Callback<Movie> {
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+        Retrofit.create().getPopularMovies(API_KEY).enqueue(object : Callback<PopMovie> {
+            override fun onResponse(call: Call<PopMovie>, response: Response<PopMovie>) {
                 if (response.isSuccessful) {
                     popMovie.postValue(response.body()?.result)
 
@@ -27,7 +29,7 @@ class AppRepository : AppRepo {
 
                 }
             }
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
+            override fun onFailure(call: Call<PopMovie>, t: Throwable) {
                 Log.e("getPopularMovies: ", t.message.toString())
             }
         })
@@ -37,8 +39,8 @@ class AppRepository : AppRepo {
     override fun getPopularTvShow(): LiveData<ArrayList<TvShows>> {
         val popTvShow = MutableLiveData<ArrayList<TvShows>>()
         EspressoIdling.increment()
-        Retrofit.create().getPopularTVs(API_KEY).enqueue(object : Callback<TvShows> {
-            override fun onResponse(call: Call<TvShows>, response: Response<TvShows>) {
+        Retrofit.create().getPopularTVs(API_KEY).enqueue(object : Callback<PopTv> {
+            override fun onResponse(call: Call<PopTv>, response: Response<PopTv>) {
                 if (response.isSuccessful) {
                     popTvShow.postValue(response.body()?.result)
 
@@ -47,7 +49,7 @@ class AppRepository : AppRepo {
                     }
                 }
             }
-            override fun onFailure(call: Call<TvShows>, t: Throwable) {
+            override fun onFailure(call: Call<PopTv>, t: Throwable) {
                 Log.e("getPopularTVs: ", t.message.toString())
             }
         })
