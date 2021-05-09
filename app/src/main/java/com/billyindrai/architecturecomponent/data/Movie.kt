@@ -3,6 +3,7 @@ package com.billyindrai.architecturecomponent.data
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class Movie (
@@ -18,8 +19,8 @@ data class Movie (
     var date: String? = null,
     @SerializedName("runtime")
     var duration: Int? = null,
-
-//    var genre: String? = null,
+    @SerializedName("genres")
+    val genres: @RawValue List<Genre>,
     @SerializedName("overview")
     var description: String? = null,
     @SerializedName("results")

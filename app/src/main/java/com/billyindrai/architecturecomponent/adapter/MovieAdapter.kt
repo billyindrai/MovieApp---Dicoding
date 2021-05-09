@@ -3,8 +3,10 @@ package com.billyindrai.architecturecomponent.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.databinding.ItemFilmBinding
+import com.bumptech.glide.Glide
 import java.util.ArrayList
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.CardViewViewHolder>() {
@@ -36,11 +38,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.CardViewViewHolder>() {
     inner class CardViewViewHolder(private val binding: ItemFilmBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Movie){
             with(binding){
-                ivPoster.setImageResource(movie.poster)
+                Glide.with(itemView.context)
+                    .load("https://image.tmdb.org/t/p/w185" + movie.poster)
+                    .into(ivPoster)
                 tvTitle.text = movie.title
-                tvRating.text = movie.rating
-                tvGenre.text = movie.genre
-
+                tvRating.text = movie.rating.toString()
                 itemView.setOnClickListener {
                     onItemClickCallback?.onItemClicked(movie)
                 }

@@ -7,7 +7,9 @@
     <string name="title">Title</string>
     <string name="rating">Rating</string>
     <string name="date">Date</string>
-    <string name="duration">Duration</string>
+    <string name="duration">"%1$s minutes"</string>
+    <string name="episodes">"%1$s episodes"</string>
+    <string name="seasons">"%1$s seasons"</string>
     <string name="genre">Genre</string>
     <string name="descriptions">Descriptions</string>
 </resources>

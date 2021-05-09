@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.ItemFilmBinding
+import com.bumptech.glide.Glide
 import java.util.ArrayList
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.CardViewViewHolder>() {
@@ -36,10 +37,11 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.CardViewViewHolder>()
     inner class CardViewViewHolder(private val binding: ItemFilmBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tvShows: TvShows){
             with(binding){
-                ivPoster.setImageResource(tvShows.poster)
+                Glide.with(itemView.context)
+                    .load("https://image.tmdb.org/t/p/w185" + tvShows.poster)
+                    .into(ivPoster)
                 tvTitle.text = tvShows.title
-                tvRating.text = tvShows.rating
-                tvGenre.text = tvShows.genre
+                tvRating.text = tvShows.rating.toString()
 
                 itemView.setOnClickListener {
                     onItemClickCallback?.onItemClicked(tvShows)

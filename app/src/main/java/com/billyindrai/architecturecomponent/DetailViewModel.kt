@@ -1,10 +1,13 @@
 package com.billyindrai.architecturecomponent
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
+import com.billyindrai.architecturecomponent.repository.AppRepo
+import com.billyindrai.architecturecomponent.repository.AppRepository
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val repository: AppRepo = AppRepository()) : ViewModel() {
 
     private var id: Int = 0
 
@@ -12,23 +15,11 @@ class DetailViewModel : ViewModel() {
         this.id = id
     }
 
-    fun getDataMovie(): Movie? {
-        var movie: Movie? = null
-        for (data in Dummy.dummyMovies()) {
-            if (data.id == id) {
-                movie = data
-            }
-        }
-        return movie
+    fun getDataMovie(): LiveData<Movie> {
+        return repository.getDetailMovie(id)
     }
 
-    fun getDataTvShows(): TvShows? {
-        var tvShows: TvShows? = null
-        for (data in Dummy.dummyTvShows()) {
-            if (data.id == id) {
-                tvShows = data
-            }
-        }
-        return tvShows
+    fun getDataTvShows(): LiveData<TvShows> {
+        return repository.getDetailTvShow(id)
     }
 }

@@ -13,6 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true" />
+
         <ImageView
             android:id="@+id/iv_detail"
             android:layout_width="150dp"
@@ -34,30 +44,32 @@
                 style="@style/TvTittle"
                 android:id="@+id/tv_titleDetail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title"/>
+                android:layout_height="wrap_content"/>
             <TextView
                 style="@style/TvDetail"
                 android:id="@+id/tvRatingDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/rating"
                 app:drawableRightCompat="@drawable/ic_baseline_star_rate_24" />
             <TextView
                 style="@style/TvDetail"
                 android:id="@+id/tvDateDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/date"/>
+                android:layout_marginTop="10dp"/>
             <TextView
                 style="@style/TvDetail"
                 android:id="@+id/tvDurationDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/duration"/>
+                android:layout_marginTop="10dp"/>
+            <TextView
+                style="@style/TvDetail"
+                android:id="@+id/tvSeasonsDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
         </LinearLayout>
 
         <LinearLayout

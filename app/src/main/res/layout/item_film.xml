@@ -63,7 +63,7 @@
 
         <TextView
             style="@style/TvMain"
-            android:id="@+id/tv_genre"
+            android:id="@+id/tv_duration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

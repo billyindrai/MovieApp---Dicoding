@@ -16,7 +16,6 @@ import com.billyindrai.architecturecomponent.adapter.TvShowsAdapter
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.FragmentTabBinding
-import java.util.ArrayList
 
 class TabFragment : Fragment() {
     companion object {
@@ -53,13 +52,21 @@ class TabFragment : Fragment() {
                 val adapter = MovieAdapter()
                 adapter.notifyDataSetChanged()
                 binding.rvTab.adapter = adapter
-                adapter.setMovies(viewModel.getMovies() as ArrayList<Movie>)
+                binding.pb.visibility =View.VISIBLE
+
+                viewModel.getMovies().observe(viewLifecycleOwner, { listMovie ->
+                    if (listMovie != null) {
+                        adapter.setMovies(listMovie)
+                        binding.pb.visibility = View.GONE
+                    }
+                })
 
                 adapter.setOnItemClickCallback(object : MovieAdapter.OnItemClickCallback {
 
                     override fun onItemClicked(data: Movie) {
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.EXTRA, data.id)
+                        intent.putExtra(DetailActivity.EXTRA_SELECT,DetailActivity.EXTRA_MOVIE)
                         startActivity(intent)
                     }
 
@@ -70,16 +77,23 @@ class TabFragment : Fragment() {
                 val adapterTv = TvShowsAdapter()
                 adapterTv.notifyDataSetChanged()
                 binding.rvTab.adapter = adapterTv
-                adapterTv.setTvShows(viewModel.getTVShow() as ArrayList<TvShows>)
+                binding.pb.visibility =View.VISIBLE
+
+                viewModel.getTVShow().observe(viewLifecycleOwner, { listTv ->
+                    if (listTv != null) {
+                        adapterTv.setTvShows(listTv)
+                        binding.pb.visibility = View.GONE
+                    }
+                })
 
                 adapterTv.setOnItemClickCallback(object : TvShowsAdapter.OnItemClickCallback {
 
                     override fun onItemClicked(data: TvShows) {
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.EXTRA, data.id)
+                        intent.putExtra(DetailActivity.EXTRA_SELECT,DetailActivity.EXTRA_TV)
                         startActivity(intent)
                     }
-
                 })
             }
         }
