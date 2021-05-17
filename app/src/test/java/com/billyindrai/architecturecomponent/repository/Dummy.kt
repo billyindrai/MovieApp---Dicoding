@@ -3,7 +3,7 @@ package com.billyindrai.architecturecomponent.repository
 import com.billyindrai.architecturecomponent.data.Genre
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
-import java.util.ArrayList
+import java.util.*
 
 object Dummy {
     fun generateDummyMovies(): List<Movie> {

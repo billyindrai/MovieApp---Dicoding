@@ -1,15 +1,20 @@
 package com.billyindrai.architecturecomponent
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.ActivityDetailBinding
+import com.billyindrai.architecturecomponent.viewmodel.DetailViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA= "EXTRA"
@@ -18,6 +23,8 @@ class DetailActivity : AppCompatActivity() {
         const val EXTRA_TV = 101
     }
     private lateinit var binding: ActivityDetailBinding
+    private val checked: Int = R.drawable.ic_baseline_favorite_border_24
+    private val unChecked: Int = R.drawable.ic_baseline_favorite_24
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,35 +35,86 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
 
-        val viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        val viewModel : DetailViewModel by viewModels()
+        var statusFav = false
+
+        var id = 0
+        var select: Int = 0
+        var movieData: Movie = Movie(id)
+        var tvShowData: TvShows = TvShows(id)
+
         if (intent.extras != null) {
-            val id = intent.getIntExtra(EXTRA, 0)
-            val select = intent.getIntExtra(EXTRA_SELECT, 0)
 
-            binding.pb.visibility = View.VISIBLE
+            id = intent.getIntExtra(EXTRA, 0)
+            select = intent.getIntExtra(EXTRA_SELECT, 0)
 
-            viewModel.setSelectedData(id)
+            showLoading(true)
+
             when (select) {
                 EXTRA_MOVIE -> {
                     setActionBarTittle("Movie")
-                    viewModel.getDataMovie().observe(this, { movie ->
-                        bindViewMovie(movie)
-                        binding.pb.visibility = View.GONE
+                    viewModel.findMovie(id)?.observe(this, { movie ->
+                        if (movie != null){
+                            movieData = movie
+                            bindViewMovie(movie)
+                            statusFav = true
+                            binding.btnFavorite.setImageResource(checked)
+                            showLoading(false)
+                        } else {
+                            viewModel.setSelectedMovie(id)
+                            viewModel.getSelectedMovie().observe(this, { movieDetail ->
+                                movieData = movieDetail
+                                bindViewMovie(movieDetail)
+                                binding.btnFavorite.setImageResource(unChecked)
+                                showLoading(false)
+                            })
+                        }
                     })
                 }
                 EXTRA_TV -> {
                     setActionBarTittle("Tv Show")
-                    viewModel.getDataTvShows().observe(this, { tv ->
-                        bindViewTvShows(tv)
-                        binding.pb.visibility = View.GONE
+                    viewModel.findTv(id)?.observe(this, { tvShow ->
+                        if (tvShow != null){
+                            tvShowData = tvShow
+                            bindViewTvShows(tvShow)
+                            statusFav = true
+                            binding.btnFavorite.setImageResource(checked)
+                            showLoading(false)
+                        } else {
+                            viewModel.setSelectedTV(id)
+                            viewModel.getSelectedTVShow().observe(this, { tvDetail ->
+                                tvShowData = tvDetail
+                                bindViewTvShows(tvDetail)
+                                binding.btnFavorite.setImageResource(unChecked)
+                                showLoading(false)
+                            })
+                        }
                     })
                 }
                 else -> return
             }
         }
+        binding.btnFavorite.setOnClickListener { view ->
+            if (!statusFav) {
+                when(select){
+                    EXTRA_MOVIE -> viewModel.insertMovie(movieData)
+                    EXTRA_TV -> viewModel.insertTv(tvShowData)
+                    else -> return@setOnClickListener
+                }
+                binding.btnFavorite.setImageResource(checked)
+                Snackbar.make(view, getString(R.string.add_favorite), Snackbar.LENGTH_SHORT).show()
+            } else {
+                when(select){
+                    EXTRA_MOVIE -> viewModel.deleteMovie(movieData.id)
+                    EXTRA_TV -> viewModel.deleteTv(tvShowData.id)
+                    else -> return@setOnClickListener
+                }
+                binding.btnFavorite.setImageResource(unChecked)
+                Snackbar.make(view, getString(R.string.remove_favorite), Snackbar.LENGTH_SHORT).show()
+            }
+            statusFav = !statusFav
+        }
     }
-
-
 
     private fun bindViewMovie(movie: Movie) {
         with(binding) {
@@ -67,7 +125,7 @@ class DetailActivity : AppCompatActivity() {
             tvRatingDetail.text = movie.rating.toString()
             tvDateDetail.text = movie.date
             tvDurationDetail.text = getString(R.string.duration, movie.duration.toString())
-            for (i in movie.genres.indices) {
+            for (i in movie.genres?.indices!!) {
                 if (i < movie.genres.size - 1) {
                     tvGenreDetail.append("${movie.genres[i].name}, ")
                 } else {
@@ -88,11 +146,11 @@ class DetailActivity : AppCompatActivity() {
             tvDateDetail.text = tvShows.date
             tvDurationDetail.text = getString(R.string.episodes, tvShows.episodes.toString())
             tvSeasonsDetail.text = getString(R.string.seasons, tvShows.seasons.toString())
-            for (i in tvShows.genres.indices) {
+            for (i in tvShows.genres?.indices!!) {
                 if (i < tvShows.genres.size - 1) {
-                    tvGenreDetail.append("${tvShows.genres[i].name}, ")
+                    tvGenreDetail.append("${tvShows.genres.get(i).name}, ")
                 } else {
-                    tvGenreDetail.append(tvShows.genres[i].name)
+                    tvGenreDetail.append(tvShows.genres.get(i).name)
                 }
             }
             tvDescriptionsDetail.text = tvShows.description
@@ -102,6 +160,14 @@ class DetailActivity : AppCompatActivity() {
     private fun setActionBarTittle(title: String) {
         if (supportActionBar != null) {
             this.title = title
+        }
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.pb.visibility = View.VISIBLE
+        } else {
+            binding.pb.visibility = View.GONE
         }
     }
 

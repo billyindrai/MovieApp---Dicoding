@@ -12,4 +12,8 @@
     <string name="seasons">"%1$s seasons"</string>
     <string name="genre">Genre</string>
     <string name="descriptions">Descriptions</string>
+    <string name="favorite">Favorite</string>
+    <string name="search">Search</string>
+    <string name="add_favorite">Add to Favorite</string>
+    <string name="remove_favorite">Remove from Favorite</string>
 </resources>

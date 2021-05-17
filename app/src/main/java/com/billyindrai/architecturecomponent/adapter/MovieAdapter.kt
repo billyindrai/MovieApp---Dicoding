@@ -3,11 +3,10 @@ package com.billyindrai.architecturecomponent.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.databinding.ItemFilmBinding
 import com.bumptech.glide.Glide
-import java.util.ArrayList
+import java.util.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.CardViewViewHolder>() {
 

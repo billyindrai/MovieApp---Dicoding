@@ -1,13 +1,17 @@
 package com.billyindrai.architecturecomponent.data
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @Parcelize
+@Entity(tableName = "favTv")
 data class TvShows (
         @SerializedName("id")
+        @PrimaryKey
         val id: Int,
         @SerializedName("poster_path")
         var poster: String? = null,
@@ -22,7 +26,7 @@ data class TvShows (
         @SerializedName("number_of_seasons")
         var seasons: Int? = null,
         @SerializedName("genres")
-        val genres: @RawValue List<Genre>,
+        val genres: @RawValue List<Genre>? = null,
         @SerializedName("overview")
         var description: String? = null
 ) : Parcelable

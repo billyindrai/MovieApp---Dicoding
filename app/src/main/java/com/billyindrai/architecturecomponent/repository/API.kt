@@ -22,4 +22,10 @@ interface API {
 
     @GET("/3/tv/{tv_id}")
     fun getDetailTV(@Path("tv_id") id: Int, @Query("api_key") apiKey: String): Call<TvShows>
+
+    @GET("/3/search/movie")
+    fun searchMovie(@Query("query") apiKey: String): Call<PopMovie>
+
+    @GET("/3/search/tv")
+    fun searchTv(@Query("query") apiKey: String): Call<PopTv>
 }

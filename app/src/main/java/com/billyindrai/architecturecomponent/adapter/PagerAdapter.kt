@@ -1,4 +1,4 @@
-package com.billyindrai.architecturecomponent
+package com.billyindrai.architecturecomponent.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

@@ -2,21 +2,23 @@ package com.billyindrai.architecturecomponent.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.billyindrai.architecturecomponent.DetailActivity
 import com.billyindrai.architecturecomponent.R
-import com.billyindrai.architecturecomponent.ViewModel
 import com.billyindrai.architecturecomponent.adapter.MovieAdapter
 import com.billyindrai.architecturecomponent.adapter.TvShowsAdapter
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.FragmentTabBinding
+import com.billyindrai.architecturecomponent.viewmodel.ViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabFragment : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
@@ -45,7 +47,7 @@ class TabFragment : Fragment() {
         binding.rvTab.layoutManager = LinearLayoutManager(this.context)
         val index = arguments?.getInt(ARG_SECTION_NUMBER, 0)
 
-        val viewModel: ViewModel = ViewModelProvider(this@TabFragment).get(ViewModel::class.java)
+        val viewModel: ViewModel by activityViewModels()
 
         when (index) {
             1 -> {
@@ -54,9 +56,9 @@ class TabFragment : Fragment() {
                 binding.rvTab.adapter = adapter
                 binding.pb.visibility =View.VISIBLE
 
-                viewModel.getMovies().observe(viewLifecycleOwner, { listMovie ->
-                    if (listMovie != null) {
-                        adapter.setMovies(listMovie)
+                viewModel.getMovie().observe(viewLifecycleOwner, { loadMovie ->
+                    if (loadMovie != null) {
+                        adapter.setMovies(loadMovie)
                         binding.pb.visibility = View.GONE
                     }
                 })
@@ -79,9 +81,9 @@ class TabFragment : Fragment() {
                 binding.rvTab.adapter = adapterTv
                 binding.pb.visibility =View.VISIBLE
 
-                viewModel.getTVShow().observe(viewLifecycleOwner, { listTv ->
-                    if (listTv != null) {
-                        adapterTv.setTvShows(listTv)
+                viewModel.getTvShow().observe(viewLifecycleOwner, { loadTv ->
+                    if (loadTv != null) {
+                        adapterTv.setTvShows(loadTv)
                         binding.pb.visibility = View.GONE
                     }
                 })

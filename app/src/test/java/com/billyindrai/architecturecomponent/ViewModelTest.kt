@@ -8,7 +8,7 @@ import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.repository.Dummy
 import com.billyindrai.architecturecomponent.repository.FakeRepo
-import junit.framework.TestCase
+import com.billyindrai.architecturecomponent.viewmodel.ViewModel
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

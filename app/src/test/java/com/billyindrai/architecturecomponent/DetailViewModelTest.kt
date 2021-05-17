@@ -6,6 +6,7 @@ import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.repository.Dummy
 import com.billyindrai.architecturecomponent.repository.FakeRepo
+import com.billyindrai.architecturecomponent.viewmodel.DetailViewModel
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before

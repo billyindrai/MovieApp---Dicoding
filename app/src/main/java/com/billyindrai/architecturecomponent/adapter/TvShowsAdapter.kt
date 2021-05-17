@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.ItemFilmBinding
 import com.bumptech.glide.Glide
-import java.util.ArrayList
+import java.util.*
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.CardViewViewHolder>() {
 
