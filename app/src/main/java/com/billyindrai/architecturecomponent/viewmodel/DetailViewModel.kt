@@ -30,9 +30,9 @@ class DetailViewModel @Inject constructor(private val repository: AppRepository)
 
     fun insertTv(tvShow: TvShows) = viewModelScope.launch { repository.insertTv(tvShow) }
 
-    fun deleteMovie(id: Int) = viewModelScope.launch { repository.deleteMovie(id) }
+    fun deleteMovie(movie: Movie) = viewModelScope.launch { repository.deleteMovie(movie) }
 
-    fun deleteTv(id: Int) = viewModelScope.launch { repository.deleteTv(id) }
+    fun deleteTv(tvShow: TvShows) = viewModelScope.launch { repository.deleteTv(tvShow) }
 
     fun findMovie(id: Int): LiveData<Movie>? {
         findMovie = repository.findMovieFromDb(id)

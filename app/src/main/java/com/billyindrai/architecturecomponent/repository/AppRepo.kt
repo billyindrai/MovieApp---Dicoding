@@ -2,6 +2,7 @@ package com.billyindrai.architecturecomponent.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import androidx.paging.PagedList
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 
@@ -26,7 +27,7 @@ interface AppRepo {
 
     suspend fun insertTv(tvShow: TvShows)
 
-    suspend fun deleteMovie(id: Int)
+    suspend fun deleteMovie(movie: Movie)
 
-    suspend fun deleteTv(id: Int)
+    suspend fun deleteTv(tvShow: TvShows)
 }

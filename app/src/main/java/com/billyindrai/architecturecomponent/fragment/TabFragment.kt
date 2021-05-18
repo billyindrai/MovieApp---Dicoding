@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.billyindrai.architecturecomponent.DetailActivity
+import com.billyindrai.architecturecomponent.activity.DetailActivity
 import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.adapter.MovieAdapter
 import com.billyindrai.architecturecomponent.adapter.TvShowsAdapter
@@ -68,7 +68,7 @@ class TabFragment : Fragment() {
                     override fun onItemClicked(data: Movie) {
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.EXTRA, data.id)
-                        intent.putExtra(DetailActivity.EXTRA_SELECT,DetailActivity.EXTRA_MOVIE)
+                        intent.putExtra(DetailActivity.EXTRA_SELECT, DetailActivity.EXTRA_MOVIE)
                         startActivity(intent)
                     }
 
@@ -93,7 +93,7 @@ class TabFragment : Fragment() {
                     override fun onItemClicked(data: TvShows) {
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.EXTRA, data.id)
-                        intent.putExtra(DetailActivity.EXTRA_SELECT,DetailActivity.EXTRA_TV)
+                        intent.putExtra(DetailActivity.EXTRA_SELECT, DetailActivity.EXTRA_TV)
                         startActivity(intent)
                     }
                 })

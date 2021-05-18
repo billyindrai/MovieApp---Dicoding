@@ -1,4 +1,4 @@
-package com.billyindrai.architecturecomponent
+package com.billyindrai.architecturecomponent.activity
 
 import android.content.Intent
 import android.os.Bundle

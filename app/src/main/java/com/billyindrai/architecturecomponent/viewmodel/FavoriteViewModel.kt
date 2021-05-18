@@ -34,8 +34,8 @@ class FavoriteViewModel @Inject constructor(private val repository: AppRepositor
         return findTvShows
     }
 
-    fun deleteMovie(id: Int) = viewModelScope.launch { repository.deleteMovie(id) }
+    fun deleteMovie(movie: Movie) = viewModelScope.launch { repository.deleteMovie(movie) }
 
-    fun deleteTVShow(id: Int) = viewModelScope.launch { repository.deleteTv(id) }
+    fun deleteTVShow(tvShows: TvShows) = viewModelScope.launch { repository.deleteTv(tvShows) }
 
 }

@@ -15,11 +15,11 @@ interface DatabaseDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(tvShows: TvShows)
 
-    @Query("delete from favMovie where id = :id")
-    suspend fun deleteMovie(id: Int)
+    @Delete
+    suspend fun deleteMovie(movie: Movie)
 
-    @Query("delete from favTv where id = :id")
-    suspend fun deleteTv(id: Int)
+    @Delete
+    suspend fun deleteTv(tvShows: TvShows)
 
     @RawQuery(observedEntities = [Movie::class])
     fun getAllMovies(query: SimpleSQLiteQuery): DataSource.Factory<Int, Movie>

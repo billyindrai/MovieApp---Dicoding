@@ -1,11 +1,11 @@
-package com.billyindrai.architecturecomponent
+package com.billyindrai.architecturecomponent.activity
 
 import android.os.Bundle
 import android.view.Menu
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.adapter.FavoritePagerAdapter
-import com.billyindrai.architecturecomponent.adapter.PagerAdapter
 import com.billyindrai.architecturecomponent.databinding.ActivityFavoriteBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

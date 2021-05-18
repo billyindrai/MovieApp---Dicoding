@@ -132,12 +132,12 @@ class AppRepository  @Inject constructor (private val databaseDAO: DatabaseDAO, 
         databaseDAO.insert(tvShow)
     }
 
-    override suspend fun deleteMovie(id: Int) {
-        databaseDAO.deleteMovie(id)
+    override suspend fun deleteMovie(movie: Movie) {
+        databaseDAO.deleteMovie(movie)
     }
 
-    override suspend fun deleteTv(id: Int) {
-        databaseDAO.deleteTv(id)
+    override suspend fun deleteTv(tvShow: TvShows) {
+        databaseDAO.deleteTv(tvShow)
     }
 
 

@@ -1,10 +1,11 @@
-package com.billyindrai.architecturecomponent
+package com.billyindrai.architecturecomponent.activity
 
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
 import com.billyindrai.architecturecomponent.databinding.ActivityDetailBinding
@@ -105,8 +106,8 @@ class DetailActivity : AppCompatActivity() {
                 Snackbar.make(view, getString(R.string.add_favorite), Snackbar.LENGTH_SHORT).show()
             } else {
                 when(select){
-                    EXTRA_MOVIE -> viewModel.deleteMovie(movieData.id)
-                    EXTRA_TV -> viewModel.deleteTv(tvShowData.id)
+                    EXTRA_MOVIE -> viewModel.deleteMovie(movieData)
+                    EXTRA_TV -> viewModel.deleteTv(tvShowData)
                     else -> return@setOnClickListener
                 }
                 binding.btnFavorite.setImageResource(unChecked)
@@ -148,9 +149,9 @@ class DetailActivity : AppCompatActivity() {
             tvSeasonsDetail.text = getString(R.string.seasons, tvShows.seasons.toString())
             for (i in tvShows.genres?.indices!!) {
                 if (i < tvShows.genres.size - 1) {
-                    tvGenreDetail.append("${tvShows.genres.get(i).name}, ")
+                    tvGenreDetail.append("${tvShows.genres[i].name}, ")
                 } else {
-                    tvGenreDetail.append(tvShows.genres.get(i).name)
+                    tvGenreDetail.append(tvShows.genres[i].name)
                 }
             }
             tvDescriptionsDetail.text = tvShows.description

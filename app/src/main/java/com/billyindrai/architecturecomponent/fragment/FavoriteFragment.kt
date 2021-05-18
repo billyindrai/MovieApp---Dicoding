@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.billyindrai.architecturecomponent.DetailActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.Sorting
-import com.billyindrai.architecturecomponent.adapter.MovieAdapter
+import com.billyindrai.architecturecomponent.activity.DetailActivity
 import com.billyindrai.architecturecomponent.adapter.MoviePagingAdapter
-import com.billyindrai.architecturecomponent.adapter.TvShowsAdapter
 import com.billyindrai.architecturecomponent.adapter.TvShowsPagingAdapter
 import com.billyindrai.architecturecomponent.data.Movie
 import com.billyindrai.architecturecomponent.data.TvShows
@@ -41,6 +40,11 @@ class FavoriteFragment : Fragment() {
     val favViewModel: FavoriteViewModel by activityViewModels()
     private val movie = MoviePagingAdapter()
     private val tvShow = TvShowsPagingAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,6 +97,33 @@ class FavoriteFragment : Fragment() {
                 })
             }
         }
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (index) {
+                    1 -> {
+                        val movieList = movie.currentList?.get(viewHolder.adapterPosition)
+                        if (movieList != null) {
+                            favViewModel.deleteMovie(movieList)
+                        }
+                    }
+                    2 -> {
+                        val tvList = tvShow.currentList?.get(viewHolder.adapterPosition)
+                        if (tvList != null) {
+                            favViewModel.deleteTVShow(tvList)
+                        }
+                    }
+                }
+            }
+        }).attachToRecyclerView(binding.rvFav)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

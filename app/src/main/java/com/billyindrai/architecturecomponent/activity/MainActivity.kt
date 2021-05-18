@@ -1,4 +1,4 @@
-package com.billyindrai.architecturecomponent
+package com.billyindrai.architecturecomponent.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.billyindrai.architecturecomponent.R
 import com.billyindrai.architecturecomponent.adapter.PagerAdapter
 import com.billyindrai.architecturecomponent.databinding.ActivityMainBinding
-import com.billyindrai.architecturecomponent.databinding.FragmentTabBinding
-import com.billyindrai.architecturecomponent.viewmodel.ViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
